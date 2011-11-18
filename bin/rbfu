@@ -19,7 +19,7 @@ else
 fi
 
 COMMAND="$@"
-RBFU_ROOT="/Users/hmans/.rbfu"
+RBFU_ROOT="$HOME/.rbfu"
 RUBY_ROOT="$RBFU_ROOT/rubies/$VERSION"
 
 # TODO: check if version exists; if not, try to install through ruby-build
