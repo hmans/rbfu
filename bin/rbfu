@@ -32,14 +32,14 @@ if [ ! -d $RUBY_ROOT ]; then
   exit 1
 fi
 
-
 # clear previous binary path
+if [ $RBFU_RUBY_VERSION ]; then path_remove "$RBFU_ROOT/rubies/$RBFU_RUBY_VERSION/bin"; fi
 
 # export new variables
 echo "Switching to Ruby $VERSION"
 path_prepend "$RUBY_ROOT/bin"
-set_variable "RBFU_VERSION" "$VERSION"
+set_variable "RBFU_RUBY_VERSION" "$VERSION"
 set_variable "GEM_PATH" "$RUBY_ROOT/lib/ruby/gems"
 
 # run specified command
-exec $COMMAND
+if [ $COMMAND ]; then exec $COMMAND; fi
