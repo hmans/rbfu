@@ -26,7 +26,7 @@ For the time being, rbfu assumes it's running from `$HOME/.rbfu/`. Install it by
 
 Add the following line to your favorite startup script (eg. `.bash_profile`):
 
-    eval "$(~/.rbfu/bin/rbfu-init)"
+    [ -d "$HOME/.rbfu" ] && eval "$($HOME/.rbfu/bin/rbfu-init)"
 
 Don't forget to reload your shell environment or start a new shell session for the change to be picked up.
 
@@ -80,6 +80,16 @@ on the command line:
 Note that if a `$HOME/.rbfu-version` file is present, rbfu will initially activate the Ruby version mentioned therein when the environment is created (ie., from your shell startup script).
 
 #### Setting a user-specific default
+
+### Uninstalling
+
+If you ever want to get rid of rbfu, make sure the system Ruby is active, then simply delete the `$HOME/.rbfu` directory.
+
+    rbfu system
+    rm -rf $HOME/.rbfu/
+
+Please note that this will also delete all Ruby versions managed by rbfu, including all
+of their installed gems. Destruction is fun!
 
 ### History
 
