@@ -1,42 +1,20 @@
 #!/usr/bin/env bash
+. "$(dirname $0)/../libexec/rbfu-common"
 
-RBFU_ROOT="$HOME/.rbfu"
 VERSION=$1
+RUBY_ROOT="$RBFU_ROOT/rubies/$VERSION"
 
-set_variable () { echo "export $1=\"$2\""; }
-unset_variable () { echo "unset $1"; }
+# sanity checks
+[[ $VERSION ]] || halt "Please specify the Ruby version to activate."
+[ -d $RUBY_ROOT ] || halt "Ruby $VERSION was requested, but is not installed."
 
-# copied from http://stackoverflow.com/questions/370047/what-is-the-most-elegant-way-to-remove-a-path-from-the-path-variable-in-bash
-path_append ()  { path_remove $1; set_variable PATH "$PATH:$1"; }
-path_prepend () { path_remove $1; set_variable PATH "$1:$PATH"; }
-path_remove ()  { set_variable PATH `echo -n $PATH | awk -v RS=: -v ORS=: '$0 != "'$1'"' | sed 's/:$//'`; }
-
-warn () { echo $1 >&2; }
-
-activate_ruby () {
-  RUBY_ROOT="$RBFU_ROOT/rubies/$1"
-
-  # TODO: check if version exists; if not, try to install through ruby-build
-  if [ ! -d $RUBY_ROOT ]; then
-    warn "Ruby $1 requested, but not available."
-    warn "Install using rbfu-install:"
-    warn ""
-    warn "$ rbfu-install $1"
-    exit 1
-  fi
-
-  path_prepend "$RUBY_ROOT/bin"
-  set_variable "RBFU_RUBY_VERSION" "$1"
-  set_variable "GEM_PATH" "$RUBY_ROOT/lib/ruby/gems"
-}
-
-deactivate_ruby () {
-  path_remove "$RBFU_ROOT/rubies/$1/bin"
+# deactivate previous version
+if [ $RBFU_RUBY_VERSION ]; then
+  path_remove "$RBFU_ROOT/rubies/$RBFU_RUBY_VERSION/bin"
   unset_variable "GEM_PATH"
-}
+fi
 
-# clear previous binary path
-if [ $RBFU_RUBY_VERSION ]; then deactivate_ruby $RBFU_RUBY_VERSION; fi
-
-# export new variables
-activate_ruby $VERSION
+# activate requested version
+path_prepend "$RUBY_ROOT/bin"
+set_variable "RBFU_RUBY_VERSION" "$VERSION"
+set_variable "GEM_PATH" "$RUBY_ROOT/lib/ruby/gems"
