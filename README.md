@@ -13,7 +13,7 @@ See, rbfu does one thing and one thing only:
 
 rbfu (especially compared to RVM and rbenv) **does not do any of the following**:
 
-* **Switch Ruby versions automagically.** You have to switch versions explicitly (eg. `rbfu 1.9.3-p0`). This is by design; please don't submit patches adding any kind of automatic behavior. I don't approve of automatic behavior. I would *hate* if one day rbfu grows sentient and enslaves all of mankind.
+* **Switch Ruby versions automagically.** Out of the box, you have to switch versions explicitly (eg. `rbfu 1.9.3-p0`). If you really, _really_ want RVM-like behaviour, you can configure rbfu to automatically pick up `.rbfu-version` files, but this feature should be considered experimental. And unloved. Highly unloved.
 * **Install Rubies.** Well, there's a little helper command available that hooks into the excellent [ruby-build](https://github.com/sstephenson/ruby-build), but you can also compile your Rubies yourself if that is what pushes your buttons, you dirty old girl.
 * **Override existing shell functions or executables.** I've never been a big fan of RVM hooking into `cd`, but in my opinion rbenv's shim executable approach is even worse. rbfu completely and entirely stays in the background. Like a good roadie. Or a silent assassin. Except that it doesn't kill you.
 * **Manage gemsets.** Seriously, please just use [Bundler](http://gembundler.com/) for managing your gems, it's great.
@@ -27,6 +27,10 @@ For the time being, rbfu assumes it's running from `$HOME/.rbfu/`. Install it by
 Add the following line to your favorite startup script (eg. `.bash_profile`):
 
     [ -d "$HOME/.rbfu" ] && eval "$($HOME/.rbfu/init.sh)"
+
+If you want rbfu to automatically switch Ruby versions after switching directories, like .rvm does it, you can supply the `--cd-hack` option. In this case, the above line would read:
+
+    [ -d "$HOME/.rbfu" ] && eval "$($HOME/.rbfu/init.sh --cd-hack)"
 
 Don't forget to reload your shell environment or start a new shell session for the change to be picked up.
 
@@ -79,7 +83,9 @@ on the command line:
 
 Note that if a `$HOME/.rbfu-version` file is present, rbfu will initially activate the Ruby version mentioned therein when the environment is created (ie., from your shell startup script).
 
-#### Setting a user-specific default
+#### Switching Ruby versions automagically
+
+If you have the `--cd-hack` option enabled (see the Installation section for details), rbfu will look for these files whenever you switch to a new directory, and act upon them automatically. Please note that this functionality is experimental (and probably buggy/dangerous). It is generally recommended you switch Ruby versions manually; this functionality is merely provided for people who really, _really_ want rbfu to kind of work like RVM. _SEE, YOU MADE ME ADD THIS. I HOPE YOU ENJOY IT. SNARL, SNARL, GRUNT ETC._
 
 ### Uninstalling
 
