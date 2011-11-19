@@ -15,10 +15,12 @@ Add the following line to your favorite startup script (eg. `.bash_profile`):
 
 Don't forget to reload your shell environment or start a new shell session for the change to be picked up.
 
-Finally, install your favorite Ruby versions through `ruby-build`:
+Finally, install your favorite Ruby versions through `rbfu-install` (this requires
+[ruby-build](https://github.com/sstephenson/ruby-build) to be installed):
 
-    ruby-build 1.8.7-p352 ~/.rbfu/rubies/1.8.7-p352
-    ruby-build 1.9.2-p290 ~/.rbfu/rubies/1.9.2-p290
+    rbfu-install 1.8.7-p352
+    rbfu-install 1.9.2-p290
+    rbfu-install 1.9.3-p0
 
 ### Usage
 
