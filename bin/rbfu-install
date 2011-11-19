@@ -8,6 +8,6 @@ if command_exists ruby-build; then
   CMD="ruby-build $VERSION $HOME/.rbfu/rubies/$VERSION"
   $CMD
 else
-  echo "fuck"
+  echo "Please install ruby-build: https://github.com/sstephenson/ruby-build"
   exit 1
 fi

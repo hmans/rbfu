@@ -19,9 +19,9 @@ activate_ruby () {
   # TODO: check if version exists; if not, try to install through ruby-build
   if [ ! -d $RUBY_ROOT ]; then
     warn "Ruby $1 requested, but not available."
-    warn "Install using ruby-build:"
+    warn "Install using rbfu-install:"
     warn ""
-    warn "$ ruby-build $1 $RUBY_ROOT"
+    warn "$ rbfu-install $1"
     exit 1
   fi
 
