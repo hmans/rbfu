@@ -2,7 +2,7 @@
 
 cat <<EOD
 function rbfu () {
-  eval \`rbfu-activate \$1\`
+  eval "\`rbfu-activate \$1\`"
 }
 
 export PATH=~/.rbfu/bin:\$PATH
