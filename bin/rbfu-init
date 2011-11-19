@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+cat <<EOD
+function rbfu () {
+  echo "Activating Ruby \$1..."
+  eval \`rbfu-activate \$1\`
+}
+
+export PATH=~/.rbfu/bin:\$PATH
+EOD
