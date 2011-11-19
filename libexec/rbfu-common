@@ -2,8 +2,8 @@
 
 # Useful methods.
 #
-set_variable () { export $1="$2"; echo "export $1=\"$2\""; }
-unset_variable () { echo "unset $1"; }
+set_variable () { export $1=$2; echo "export $1=\"$2\""; }
+unset_variable () { unset $1; echo "unset $1"; }
 
 path_append ()  { path_remove $1; set_variable PATH "$PATH:$1"; }
 path_prepend () { path_remove $1; set_variable PATH "$1:$PATH"; }
@@ -12,6 +12,7 @@ path_remove ()  { set_variable PATH `echo -n $PATH | awk -v RS=: -v ORS=: '$0 !=
 command_exists () { type "$1" &> /dev/null; }
 
 warn () { echo "$1" >&2; }
+info () { warn "$1"; }
 halt () { warn "$1"; exit 1; }
 
 # A bunch of useful variables.

@@ -41,12 +41,21 @@ If you prefer to compile your Rubies manually, please feel free to do so. rbfu e
 
 ### Usage
 
+#### Activating a specific Ruby version
+
 Switch Ruby versions using the `rbfu` command. For example:
 
     rbfu 1.8.7-p352
 
 This will modify your current environment with all the paths and variables required for
 the selected version of Ruby to be used. Yay!
+
+#### Reverting to the default system Ruby
+
+    rbfu system
+
+This will remove all of rbfu's traces from your current environment, reverting to whatever
+Ruby version your system is providing (if at all).
 
 ### History
 

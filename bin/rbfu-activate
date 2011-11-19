@@ -2,21 +2,32 @@
 . "$(dirname $0)/../libexec/rbfu-common"
 
 VERSION=$1
-RUBY_ROOT="$RBFU_ROOT/rubies/$VERSION"
 
 # sanity checks
 [[ $VERSION ]] || halt "Please specify the Ruby version to activate."
-[ -d $RUBY_ROOT ] || halt "Ruby $VERSION was requested, but is not installed."
 
-# deactivate previous version
-if [ $RBFU_RUBY_VERSION ]; then
-  path_remove "$RBFU_ROOT/rubies/$RBFU_RUBY_VERSION/bin"
-  unset_variable "GEM_PATH"
+deactivate_previous_ruby_version () {
+  if [ $RBFU_RUBY_VERSION ]; then
+    path_remove "$RBFU_ROOT/rubies/$RBFU_RUBY_VERSION/bin"
+    unset_variable GEM_PATH
+    unset_variable RBFU_RUBY_VERSION
+  fi
+}
+
+if [ $VERSION == "system" ]; then
+  deactivate_previous_ruby_version
+  info "Activated system Ruby. See you later."
+else
+  # additional sanity checks
+  RUBY_ROOT="$RBFU_ROOT/rubies/$VERSION"
+  [ -d $RUBY_ROOT ] || halt "Ruby $VERSION was requested, but is not installed."
+
+  deactivate_previous_ruby_version
+
+  # activate requested version
+  path_prepend "$RUBY_ROOT/bin"
+  set_variable "RBFU_RUBY_VERSION" "$VERSION"
+  set_variable "GEM_PATH" "$RUBY_ROOT/lib/ruby/gems"
+
+  info "Activated Ruby $RBFU_RUBY_VERSION" >&2
 fi
-
-# activate requested version
-path_prepend "$RUBY_ROOT/bin"
-set_variable "RBFU_RUBY_VERSION" "$VERSION"
-set_variable "GEM_PATH" "$RUBY_ROOT/lib/ruby/gems"
-
-echo "Activated Ruby $RBFU_RUBY_VERSION" >&2
