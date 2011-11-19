@@ -26,7 +26,7 @@ For the time being, rbfu assumes it's running from `$HOME/.rbfu/`. Install it by
 
 Add the following line to your favorite startup script (eg. `.bash_profile`):
 
-    [ -d "$HOME/.rbfu" ] && eval "$($HOME/.rbfu/bin/rbfu-init)"
+    [ -d "$HOME/.rbfu" ] && eval "$($HOME/.rbfu/init.sh)"
 
 Don't forget to reload your shell environment or start a new shell session for the change to be picked up.
 
