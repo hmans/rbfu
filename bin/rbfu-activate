@@ -18,3 +18,5 @@ fi
 path_prepend "$RUBY_ROOT/bin"
 set_variable "RBFU_RUBY_VERSION" "$VERSION"
 set_variable "GEM_PATH" "$RUBY_ROOT/lib/ruby/gems"
+
+echo "Activated Ruby $RBFU_RUBY_VERSION" >&2
