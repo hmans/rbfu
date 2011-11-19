@@ -6,4 +6,5 @@ function rbfu () {
 }
 
 export PATH=~/.rbfu/bin:\$PATH
+[ -f $HOME/.rbfu-version ] && rbfu
 EOD

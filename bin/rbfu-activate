@@ -2,6 +2,12 @@
 . "$(dirname $0)/../libexec/rbfu-common"
 
 VERSION=$1
+SOURCE="from command line"
+
+# fall back to $PWD/.rbfu-version and $HOME/.rbfu-version if no version is given
+read_version_from_file () { if [ -f "$1" ]; then SOURCE="from $1"; VERSION=`cat $1`; fi; }
+[[ $VERSION ]] || read_version_from_file "$PWD/.rbfu-version"
+[[ $VERSION ]] || read_version_from_file "$HOME/.rbfu-version"
 
 # sanity checks
 [[ $VERSION ]] || halt "Please specify the Ruby version to activate."
@@ -16,11 +22,11 @@ deactivate_previous_ruby_version () {
 
 if [ $VERSION == "system" ]; then
   deactivate_previous_ruby_version
-  info "Activated system Ruby. See you later."
+  MSG="Activated system Ruby."
 else
   # additional sanity checks
   RUBY_ROOT="$RBFU_ROOT/rubies/$VERSION"
-  [ -d $RUBY_ROOT ] || halt "Ruby $VERSION was requested, but is not installed."
+  [ -d $RUBY_ROOT ] || halt "Ruby $VERSION was requested, but is not installed. ($SOURCE)"
 
   deactivate_previous_ruby_version
 
@@ -29,5 +35,7 @@ else
   set_variable "RBFU_RUBY_VERSION" "$VERSION"
   set_variable "GEM_PATH" "$RUBY_ROOT/lib/ruby/gems"
 
-  info "Activated Ruby $RBFU_RUBY_VERSION" >&2
+  MSG="Activated Ruby $RBFU_RUBY_VERSION."
 fi
+
+info "$MSG ($SOURCE)"

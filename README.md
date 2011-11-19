@@ -57,6 +57,30 @@ the selected version of Ruby to be used. Yay!
 This will remove all of rbfu's traces from your current environment, reverting to whatever
 Ruby version your system is providing (if at all).
 
+#### Setting project and user defaults
+
+When you don't pass a version number to `rbfu`, it will try to find an `.rbfu-version` file
+in the current directory (and, if that fails, in your home directory). This allows you to
+configure your code projects (or your user account) for specific versions of Ruby, without having to specify the Ruby version every time you invoke rbfu.
+
+Example:
+
+    $ echo "1.9.3-p0" > .rbfu-version
+    $ rbfu
+    Activated Ruby 1.9.3-p0 (from /Users/hmans/src/pants/.rbfu-version)
+
+Note that you can still override this by passing a version
+on the command line:
+
+    $ cat .rbfu-version
+    1.9.3-p0
+    $ rbfu 1.8.7-p352
+    Activated Ruby 1.8.7-p352 (from command line)
+
+Note that if a `$HOME/.rbfu-version` file is present, rbfu will initially activate the Ruby version mentioned therein when the environment is created (ie., from your shell startup script).
+
+#### Setting a user-specific default
+
 ### History
 
 Yo dawg, this stuff is so fresh, it doesn't even have a version number yet. Hang in there!
