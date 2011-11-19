@@ -15,7 +15,7 @@ Add `$HOME/.rbfu/bin` to your path (eg. in `.profile` or `.bashrc`):
 
 Then install your favorite Ruby versions through `ruby-build`:
 
-    ruby-build 1.8.7-p352 ~/.rbfu/rubies/1.8.7-p253
+    ruby-build 1.8.7-p352 ~/.rbfu/rubies/1.8.7-p352
     ruby-build 1.9.2-p290 ~/.rbfu/rubies/1.9.2-p290
 
 ### Usage
