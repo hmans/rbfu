@@ -28,7 +28,7 @@ Add the following line to your favorite startup script (eg. `.bash_profile`):
 
     [ -d "$HOME/.rbfu" ] && eval "$($HOME/.rbfu/init.sh)"
 
-If you want rbfu to automatically switch Ruby versions after switching directories, like .rvm does it, you can supply the `--cd-hack` option. In this case, the above line would read:
+**Experimental Feature for Dangerous Cats:** If you want rbfu to automatically switch Ruby versions when you enter directories containing `.rbfu-version` files (kinda like RVM does it), you can supply the `--cd-hack` option here. In this case, the above line would read:
 
     [ -d "$HOME/.rbfu" ] && eval "$($HOME/.rbfu/init.sh --cd-hack)"
 
