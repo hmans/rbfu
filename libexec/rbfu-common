@@ -2,7 +2,7 @@
 
 # Useful methods.
 #
-set_variable () { echo "export $1=\"$2\""; }
+set_variable () { export $1="$2"; echo "export $1=\"$2\""; }
 unset_variable () { echo "unset $1"; }
 
 path_append ()  { path_remove $1; set_variable PATH "$PATH:$1"; }
