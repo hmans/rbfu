@@ -1,6 +1,6 @@
 # rbfu
 
-`rbfu` manages multiple versions of Ruby and allows you to switch between them on the fly.
+**rbfu manages multiple versions of Ruby and allows you to switch between them on the fly.**
 
 Yes, just like [RVM](http://beginrescueend.com/) and [rbenv](https://github.com/sstephenson/rbenv)! "Why, good sir", I hear you ask, "do we need another one of these?"
 Well, there isn't really anything wrong with RVM nor rbenv; they simply didn't work the way I
