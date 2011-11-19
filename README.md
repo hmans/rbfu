@@ -1,7 +1,21 @@
 # rbfu
 
-Because I've grown to dislike both RVM and rbenv -- too much magic. Here's
-my attempt at a minimal solution.
+`rbfu` manages multiple versions of Ruby and allows you to switch between them on the fly.
+
+Yes, just like [RVM](http://beginrescueend.com/) and [rbenv](https://github.com/sstephenson/rbenv)! "Why, good sir", I hear you ask, "do we need another one of these?"
+Well, there isn't really anything wrong with RVM nor rbenv; they simply didn't work the way I
+would like this stuff to work. So one day I decided to scratch my own itch. There you go.
+
+rbfu does one thing and one thing only:
+
+* **Switch to a specified version of Ruby.** It does so by modifying the current environment with a modified `$PATH` and various related variables.
+
+rbfu (especially compared to RVM and rbenv) **does not do any of the following**:
+
+* **Switch Ruby versions automagically.** You always switch versions explicitly (eg. `rbfu 1.9.3-p0`).
+* **Install Rubies.** Well, there's a little helper command available that hooks into the excellent [ruby-build](https://github.com/sstephenson/ruby-build).
+* **Override existing shell functions or executables.** I've never been a big fan of RVM hooking into `cd`, but in my opinion rbenv's shim executable approach is even worse.
+* **Manage gemsets.** Please use [Bundler](http://gembundler.com/) for managing your gems, it's great.
 
 ### Installation
 
@@ -21,6 +35,8 @@ Finally, install your favorite Ruby versions through `rbfu-install` (this requir
     rbfu-install 1.8.7-p352
     rbfu-install 1.9.2-p290
     rbfu-install 1.9.3-p0
+
+If you prefer to compile your Rubies manually, please feel free to do so. rbfu expects Rubies to live in directories named `~/.rbfu/rubies/$VERSION/`.
 
 ### Usage
 
