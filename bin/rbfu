@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+. $HOME/.rbfu/libexec/rbfu-activate $@
