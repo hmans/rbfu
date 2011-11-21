@@ -1,7 +1,26 @@
 #!/usr/bin/env bash
-. "$(dirname $0)/../libexec/rbfu-common"
 
-VERSION=$1
+# Useful methods. \o/
+#
+set_variable () { export $1=$2; }
+unset_variable () { unset $1; }
+
+path_append ()  { path_remove $1; set_variable PATH "$PATH:$1"; }
+path_prepend () { path_remove $1; set_variable PATH "$1:$PATH"; }
+path_remove ()  { set_variable PATH `echo -n $PATH | awk -v RS=: -v ORS=: '$0 != "'$1'"' | sed 's/:$//'`; }
+
+command_exists () { type "$1" &> /dev/null; }
+
+warn () { echo -e "$1" >&2; }
+info () { warn "$1"; }
+
+# A bunch of useful variables.
+#
+RBFU_ROOT="$HOME/.rbfu"
+
+# Run-time configuration
+#
+VERSION=$1; shift
 SOURCE="from command line"
 
 # fall back to $PWD/.rbfu-version and $HOME/.rbfu-version if no version is given
@@ -10,7 +29,7 @@ read_version_from_file () { if [ -f "$1" ]; then SOURCE="from $1"; VERSION=`cat 
 [[ $VERSION ]] || read_version_from_file "$HOME/.rbfu-version"
 
 # sanity checks
-[[ $VERSION ]] || halt "Please specify the Ruby version to activate."
+[ ! $VERSION ] && warn "Please specify the Ruby version to activate." && return
 
 deactivate_previous_ruby_version () {
   if [ $RBFU_RUBY_VERSION ]; then
@@ -26,7 +45,12 @@ if [ $VERSION == "system" ]; then
 else
   # additional sanity checks
   RUBY_ROOT="$RBFU_ROOT/rubies/$VERSION"
-  [ -a $RUBY_ROOT ] || halt "Ruby $VERSION was requested, but is not installed. ($SOURCE)\nIf you have ruby-build installed, you can install the requested version like this:\n$ ruby-build $VERSION \$HOME/.rbfu/rubies/$VERSION"
+  if [ ! -e $RUBY_ROOT ]; then
+    warn "Ruby $VERSION was requested, but is not installed. ($SOURCE)"
+    warn "If you have ruby-build installed, you can install the requested version like this:"
+    warn "$ ruby-build $VERSION \$HOME/.rbfu/rubies/$VERSION"
+    return 1
+  fi
 
   deactivate_previous_ruby_version
 

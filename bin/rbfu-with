@@ -2,5 +2,6 @@
 VERSION=$1; shift
 COMMAND=$@
 
-eval "`$HOME/.rbfu/libexec/rbfu-activate $VERSION`"
+. $HOME/.rbfu/libexec/rbfu-activate $VERSION
 $COMMAND
+

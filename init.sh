@@ -13,10 +13,7 @@ done
 # configure rbfu
 # 
 cat <<EOD
-function rbfu () {
-  . rbfu-with \$@
-}
-
+alias rbfu=". $HOME/.rbfu/libexec/rbfu-activate"
 export PATH=~/.rbfu/bin:\$PATH
 [ -f $HOME/.rbfu-version ] && rbfu
 EOD
