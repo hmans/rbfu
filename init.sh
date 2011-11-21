@@ -14,17 +14,10 @@ done
 # 
 cat <<EOD
 function rbfu () {
-  eval "\`$HOME/.rbfu/libexec/rbfu-activate \$1\`"
+  . rbfu-with \$@
 }
 
-function rbfu-exec () {
-  previous_version=\$RBFU_RUBY_VERSION
-  new_version=\$1; shift
-  rbfu \$new_version 2>/dev/null
-  \$@
-  rbfu \$previous_version 2>/dev/null
-}
-
+export PATH=~/.rbfu/bin:\$PATH
 [ -f $HOME/.rbfu-version ] && rbfu
 EOD
 
