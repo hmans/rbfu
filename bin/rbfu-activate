@@ -26,7 +26,7 @@ if [ $VERSION == "system" ]; then
 else
   # additional sanity checks
   RUBY_ROOT="$RBFU_ROOT/rubies/$VERSION"
-  [ -d $RUBY_ROOT ] || halt "Ruby $VERSION was requested, but is not installed. ($SOURCE)"
+  [ -a $RUBY_ROOT ] || halt "Ruby $VERSION was requested, but is not installed. ($SOURCE)"
 
   deactivate_previous_ruby_version
 
