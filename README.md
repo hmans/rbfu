@@ -14,7 +14,7 @@ See, rbfu does one thing and one thing only:
 rbfu (especially compared to RVM and rbenv) **does not do any of the following**:
 
 * **Switch Ruby versions automagically.** Out of the box, you have to switch versions explicitly (eg. `rbfu 1.9.3-p0`). If you really, _really_ want RVM-like behaviour, you can configure rbfu to automatically pick up `.rbfu-version` files, but this feature should be considered experimental. And unloved. Highly unloved.
-* **Install Rubies.** Well, there's a little helper command available that hooks into the excellent [ruby-build](https://github.com/sstephenson/ruby-build), but you can also compile your Rubies yourself if that is what pushes your buttons, you dirty old girl.
+* **Install Rubies.** Compiling Rubies is simple enough, thanks to the excellent [ruby-build](https://github.com/sstephenson/ruby-build). (Of course you can also compile your Rubies manually if that is what pushes your buttons, you dirty old girl.)
 * **Override existing shell functions or executables.** I've never been a big fan of RVM hooking into `cd`, but in my opinion rbenv's shim executable approach is even worse. rbfu completely and entirely stays in the background. Like a good roadie. Or a silent assassin. Except that it doesn't kill you.
 * **Manage gemsets.** Seriously, please just use [Bundler](http://gembundler.com/) for managing your gems, it's great.
 
