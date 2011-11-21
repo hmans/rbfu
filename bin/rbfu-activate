@@ -26,7 +26,7 @@ if [ $VERSION == "system" ]; then
 else
   # additional sanity checks
   RUBY_ROOT="$RBFU_ROOT/rubies/$VERSION"
-  [ -a $RUBY_ROOT ] || halt "Ruby $VERSION was requested, but is not installed. ($SOURCE)"
+  [ -a $RUBY_ROOT ] || halt "Ruby $VERSION was requested, but is not installed. ($SOURCE)\nIf you have ruby-build installed, you can install the requested version like this:\n$ ruby-build $VERSION \$HOME/.rbfu/rubies/$VERSION"
 
   deactivate_previous_ruby_version
 

@@ -34,14 +34,14 @@ Add the following line to your favorite startup script (eg. `.bash_profile`):
 
 Don't forget to reload your shell environment or start a new shell session for the change to be picked up.
 
-Finally, install your favorite Ruby versions through `rbfu-install` (this requires
-[ruby-build](https://github.com/sstephenson/ruby-build) to be installed):
+Finally, install your favorite Ruby versions. The most convenient way to do this is through the
+excellent [ruby-build](https://github.com/sstephenson/ruby-build):
 
-    rbfu-install 1.8.7-p352
-    rbfu-install 1.9.2-p290
-    rbfu-install 1.9.3-p0
+    ruby-build 1.8.7-p352 $HOME/.rbfu/rubies/1.8.7-p352
+    ruby-build 1.9.2-p290 $HOME/.rbfu/rubies/1.9.2-p290
+    ruby-build 1.9.3-p0 $HOME/.rbfu/rubies/1.9.3-p0
 
-If you prefer to compile your Rubies manually, please feel free to do so. rbfu expects Rubies to live in directories named `~/.rbfu/rubies/$VERSION/`.
+If you prefer to compile your Rubies manually, please feel free to do so. As you can see from the above example, rbfu expects Rubies to live in directories named `$HOME/.rbfu/rubies/$VERSION/`. Go wild.
 
 ### Usage
 

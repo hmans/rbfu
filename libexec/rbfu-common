@@ -11,7 +11,7 @@ path_remove ()  { set_variable PATH `echo -n $PATH | awk -v RS=: -v ORS=: '$0 !=
 
 command_exists () { type "$1" &> /dev/null; }
 
-warn () { echo "$1" >&2; }
+warn () { echo -e "$1" >&2; }
 info () { warn "$1"; }
 halt () { warn "$1"; exit 1; }
 
