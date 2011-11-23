@@ -36,10 +36,11 @@ fi
 
 # bash completion
 #
+cat <<EOD
 _rbfu() {
-  cur="${COMP_WORDS[COMP_CWORD]}"
-  opts=$(ls $HOME/.rbfu/rubies)
-  COMPREPLY=( $(compgen -W "${opts} system" -- ${cur}) )
+  cur="\${COMP_WORDS[COMP_CWORD]}"
+  opts=\$(ls $HOME/.rbfu/rubies)
+  COMPREPLY=( \$(compgen -W "\${opts} system" -- \${cur}) )
 }
 complete -o nospace -F _rbfu rbfu
-
+EOD
