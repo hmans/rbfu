@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-VERSION=$1; shift
-COMMAND=$@
-
-. $HOME/.rbfu/libexec/rbfu-activate $VERSION
-$COMMAND
-

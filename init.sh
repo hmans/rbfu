@@ -13,9 +13,9 @@ done
 # configure rbfu
 # 
 cat <<EOD
-alias rbfu=". $HOME/.rbfu/libexec/rbfu-activate"
+alias rbfu-env=". $HOME/.rbfu/bin/rbfu"
 export PATH=~/.rbfu/bin:\$PATH
-[ -f $HOME/.rbfu-version ] && rbfu
+[ -f $HOME/.rbfu-version ] && rbfu-env
 EOD
 
 # optional cd hack
@@ -24,7 +24,7 @@ if [ $RBFU_CD_HACK ]; then
   cat <<EOD
 function cd() {
   if builtin cd "\$@"; then
-    [ -f "\$PWD/.rbfu-version" ] && rbfu
+    [ -f "\$PWD/.rbfu-version" ] && . rbfu
   else
     return \$?
   fi
