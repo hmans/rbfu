@@ -36,10 +36,14 @@ fi
 # bash completion
 #
 cat <<EOD
-_rbfu() {
+_rbfu_complete_version() {
   cur="\${COMP_WORDS[COMP_CWORD]}"
-  opts=\$(ls $HOME/.rbfu/rubies)
-  COMPREPLY=( \$(compgen -W "\${opts} system" -- \${cur}) )
+  opts=\$(ls $HOME/.rbfu/rubies | sed -e "s/^/@/")
+
+  if [[ \$COMP_CWORD == 1 ]]; then
+    COMPREPLY=( \$(compgen -W "\${opts} @system" -- \${cur}) )
+    return 0
+  fi
 }
-complete -o nospace -F _rbfu rbfu
+complete -o nospace -F _rbfu_complete_version rbfu
 EOD
