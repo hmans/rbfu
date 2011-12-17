@@ -23,11 +23,8 @@ deactivate_previous_ruby_version () {
 }
 
 rbfu_activate () {
-  local VERSION
+  local VERSION COMMAND MSG SOURCE
   local RBFU_ROOT="$HOME/.rbfu"
-  local COMMAND
-  local MSG
-  local SOURCE
   
   # Run-time configuration
   #
