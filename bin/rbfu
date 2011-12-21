@@ -1,5 +1,27 @@
 #!/usr/bin/env bash
 
+if [ "$1" = "--init" ]; then
+  cat <<EOD
+alias rbfu-env=". rbfu"
+EOD
+
+  if [ "$2" = "--auto" ]; then
+    cat <<EOD
+function cd() {
+  if builtin cd "\$@"; then
+    [ -f "\$PWD/.rbfu-version" ] && rbfu-env true
+  else
+    return \$?
+  fi
+}
+
+[ -f $HOME/.rbfu-version ] && rbfu-env
+EOD
+  fi
+
+  exit 0
+fi
+
 # Useful methods. \o/
 #
 set_variable () { export $1="$2"; }
