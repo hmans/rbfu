@@ -138,6 +138,11 @@ Also, don't forget to remove the rbfu line from your shell startup script.
 * ZOMG!
 
 
+## Contributors
+
+* [Hendrik Mans](http://hmans.net) (author and maintainer)
+* [Sebastian Röbke](http://www.xing.com/profile/Sebastian_Roebke) (bash tab completion)
+
 ## License
 
 MIT License
