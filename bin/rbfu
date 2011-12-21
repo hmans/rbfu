@@ -52,7 +52,7 @@ rbfu_activate () {
     if [ ! -e $RUBY_ROOT ]; then
       warn "Ruby $VERSION was requested, but is not installed. ($SOURCE)"
       warn "If you have ruby-build installed, you can install the requested version like this:"
-      warn "$ ruby-build $VERSION \$HOME/.rbfu/rubies/$VERSION"
+      warn "\nruby-build $VERSION \$HOME/.rbfu/rubies/$VERSION"
       return 1
     fi
 
