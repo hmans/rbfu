@@ -1,107 +1,144 @@
 # rbfu
 
-**rbfu manages multiple versions of Ruby and allows you to switch between them on the fly.**
+**rbfu is a simple tool that manages multiple installations of Ruby and allows you to switch between them on the fly.**
 
-Yes, just like [RVM](http://beginrescueend.com/) and [rbenv](https://github.com/sstephenson/rbenv)! "Why, good sir", I hear you ask, "do we need another one of these?"
-Well, there isn't really anything wrong with RVM nor rbenv; they simply don't work the way I
-would prefer this stuff to work. So one day I decided to scratch my own itch; there you go.
-As to the details of that itch, I could probably write a nice, big blog article about this; let's just say for now that I believe both RVM and, ironically, rbenv are simply trying to do too much.
+## Installation
 
-See, rbfu does one thing and one thing only:
+### Installing through Homebrew
 
-* **Switch to a specified version of Ruby.** It does so by modifying the current environment with a modified `$PATH` and various related variables. It doesn't override anything in your system at all; as far as all the beautiful things you code and run are concerned, rbfu is completely, entirely, utterly invisible.
+1. If you're on OS X and using Homebrew, installation is easy:
 
-rbfu (especially compared to RVM and rbenv) **does not do any of the following**:
+        brew install rbfu
 
-* **Switch Ruby versions automagically.** Out of the box, you have to switch versions explicitly (eg. `rbfu 1.9.3-p0`). If you really, _really_ want RVM-like behaviour, you can configure rbfu to automatically pick up `.rbfu-version` files, but this feature should be considered experimental. And unloved. Highly unloved.
-* **Install Rubies.** Compiling Rubies is simple enough, thanks to the excellent [ruby-build](https://github.com/sstephenson/ruby-build). (Of course you can also compile your Rubies manually if that is what pushes your buttons, you dirty old girl.)
-* **Override existing shell functions or executables.** I've never been a big fan of RVM hooking into `cd`, but in my opinion rbenv's shim executable approach is even worse. rbfu completely and entirely stays in the background. Like a good roadie. Or a silent assassin. Except that it doesn't kill you.
-* **Manage gemsets.** Seriously, please just use [Bundler](http://gembundler.com/) for managing your gems, it's great.
+2. Alternatively, download/clone the rbfu code and run the install script:
 
-### Installation
+        git clone git@github.com:hmans/rbfu.git
+        cd rbfu
+        ./install.sh
 
-For the time being, rbfu assumes it's running from `$HOME/.rbfu/`. Install it by simply cloning the rbfu repository:
+    This will copy the `rbfu` executable to `/usr/local/bin`. If you need to install `rbfu` to a different directory, you can supply the `PREFIX` environment variable, manually copy `bin/rbfu` to a directory of your choosing, or add the provided `bin` directory to your PATH. Either way, all you need to do is make `rbfu` available in your `$PATH`.
 
-    git clone git://github.com/hmans/rbfu.git ~/.rbfu
+3. Add the following initialization line to a **shell startup script** of your choosing (eg. `$HOME/.bash_profile`):
 
-Add the following line to your favorite startup script (eg. `.bash_profile`):
+        [ $(which rbfu) ] && eval "$(rbfu --init)"
+    
+    Or, if you want **automatic version switching** (see below):
+    
+        [ $(which rbfu) ] && eval "$(rbfu --init --auto)"
 
-    [ -d "$HOME/.rbfu" ] && eval "$($HOME/.rbfu/init.sh)"
 
-**Experimental Feature for Dangerous Cats:** If you want rbfu to automatically switch Ruby versions when you enter directories containing `.rbfu-version` files (kinda like RVM does it), you can supply the `--cd-hack` option here. In this case, the above line would read:
+### Installing Rubies
 
-    [ -d "$HOME/.rbfu" ] && eval "$($HOME/.rbfu/init.sh --cd-hack)"
+rbfu can switch between multiple installations of Ruby on the fly, and it expects them to live within directories named `$HOME/.rbfu/rubies/$VERSION/`. Feel free to install your favourite Ruby versions however you prefer to do it, but we recommend the excellent [ruby-build](https://github.com/sstephenson/ruby-build) tool.
 
-Don't forget to reload your shell environment or start a new shell session for the change to be picked up.
-
-Finally, install your favorite Ruby versions. The most convenient way to do this is through the
-excellent [ruby-build](https://github.com/sstephenson/ruby-build):
+Using ruby-build, here's how you'd install a bunch of popular Ruby versions:
 
     ruby-build 1.8.7-p352 $HOME/.rbfu/rubies/1.8.7-p352
     ruby-build 1.9.2-p290 $HOME/.rbfu/rubies/1.9.2-p290
-    ruby-build 1.9.3-p0 $HOME/.rbfu/rubies/1.9.3-p0
+    ruby-build 1.9.3-p0   $HOME/.rbfu/rubies/1.9.3-p0
 
-If you prefer to compile your Rubies manually, please feel free to do so. As you can see from the above example, rbfu expects Rubies to live in directories named `$HOME/.rbfu/rubies/$VERSION/`. Go wild.
+Obviously, each installed Ruby version will have its own self-contained set of gems and associated binaries, so go wild!
 
-### Usage
+## Usage
 
-#### Activating a specific Ruby version
+### Basic Usage
 
-Switch Ruby versions using the `rbfu` command. For example:
+First and foremost, `rbfu` is meant to be invoked _explicitely_, meaning that you can prefix your commands with `rbfu`, and it will make sure those commands run in an environment that is configured to use the specified version of Ruby.
 
-    rbfu 1.8.7-p352
+The basic syntax looks like this:
 
-This will modify your current environment with all the paths and variables required for
-the selected version of Ruby to be used. Yay!
+    rbfu [@<version>] <command>
 
-#### Reverting to the default system Ruby
+A couple of examples:
 
-    rbfu system
+    rbfu @1.8.7 rake db:migrate
+    rbfu @jruby bundle install
+    rbfu @1.9.3 thin start
 
-This will remove all of rbfu's traces from your current environment, reverting to whatever
-Ruby version your system is providing (if at all).
+The `@<version>` parameter is optional; if not specified, rbfu will look for a file named `.rbfu-version` in your current directory, followed by your home directory. This allows you to set global default for your user account, and project-specific overrides.
 
-#### Setting project and user defaults
+The `.rbfu-version` files are expected to contain nothing but the Ruby version requested. For example:
 
-When you don't pass a version number to `rbfu`, it will try to find an `.rbfu-version` file
-in the current directory (and, if that fails, in your home directory). This allows you to
-configure your code projects (or your user account) for specific versions of Ruby, without having to specify the Ruby version every time you invoke rbfu.
+    echo "1.9.3-p0" > $HOME/.rbfu_version
+    rbfu ruby -v    # will use 1.9.3-p0
 
-Example:
+If the `@<version>` parameter is given, it will always override whatever versions are specified in available `.rbfu-version` files.
 
-    $ echo "1.9.3-p0" > .rbfu-version
-    $ rbfu
-    Activated Ruby 1.9.3-p0 (from /Users/hmans/src/pants/.rbfu-version)
+### Modifying the current shell environment
 
-Note that you can still override this by passing a version
-on the command line:
+Instead of prefixing all your commands with `rbfu`, you can use `rbfu-env` to reconfigure your current shell session. Example:
 
-    $ cat .rbfu-version
-    1.9.3-p0
-    $ rbfu 1.8.7-p352
-    Activated Ruby 1.8.7-p352 (from command line)
+    rbfu-env @1.9.3-p0
 
-Note that if a `$HOME/.rbfu-version` file is present, rbfu will initially activate the Ruby version mentioned therein when the environment is created (ie., from your shell startup script).
+The above command will reconfigure your currently active shell session to use Ruby 1.9.3-p0. All commands run from within that session will use that version of Ruby, until the shell session is reconfigured again.
 
-#### Switching Ruby versions automagically
+**Note:** `rbfu-env` is only available if the `rbfu --init` line has been added to your shell startup script, as described in the "Installation" section above.
 
-If you have the `--cd-hack` option enabled (see the Installation section for details), rbfu will look for these files whenever you switch to a new directory, and act upon them automatically. Please note that this functionality is experimental (and probably buggy/dangerous). It is generally recommended you switch Ruby versions manually; this functionality is merely provided for people who really, _really_ want rbfu to kind of work like RVM. _SEE, YOU MADE ME ADD THIS. I HOPE YOU ENJOY IT. SNARL, SNARL, GRUNT ETC._
+### Automatic Version Switching
+
+If your shell startup script invocation of `rbfu --init` includes the `--auto` option (see "Installation"), rbfu will be configured to switch Ruby versions automatically when changing to a new directory containing a `.rbfu-version` file. 
+
+(Also known as "works like RVM mode". Some people don't like this behavior, so it's optional -- simply remove the `--auto` option to disable this.)
+
+## Frequently Asked Questions / Tips & Tweaks
+
+### How do I get shorter version numbers ("1.8.7" instead of "1.8.7-p352")?
+
+rbfu doesn't care what the directories your Rubies are installed in are named. You can install a version like 1.8.7-p352 into `$HOME/.rbfu/rubies/1.8.7`, and it will be available through `rbfu @1.8.7`.
+
+### How do I alias a Ruby version to a different name?
+
+Simply symlink the directory.
+
+    ln -s $HOME/.rbfu/rubies/jruby-1.6.5 $HOME/.rbfu/rubies/jruby
+    rbfu @jruby
+
+### How do I create a new gemset?
+
+RVM (a tool similar to rbfu) contains functionality to create completely separate sets of RubyGems (aka gemsets). rbfu does not contain such functionality, nor are we planning on adding it (we believe it's not neccessary; managing gem dependencies with [Bundler](http://gembundler.com/) works just fine, thank you very much.)
+
+If you *really* want or need gemset-like functionality, you can emulate it by simply creating separate Rubies and using them in your projects (eg. `$HOME/.rbfu/rubies/project_a/` and `$HOME/.rbfu/rubies/project_b/`). The overhead isn't all that bad.
+
+### How do I use rbfu with Pow?
+
+Add a `.rbfu-version` file to your project, as well as a `.powrc` file containing the following line:
+
+    . rbfu
+
+This will make Pow start up your project through rbfu. We're working on adding built-in support for rbfu to Pow soon.
+
+### How do I use rbfu with TextMate?
+
+*Coming soon.*
+
+### Why doesn't rbfu just install new Rubies itself?
+
+This could be added easily (it's a simple invocation of `ruby-build`); however, we're actively deciding against it because the most important design decision for rbfu is that it's supposed to *just one thing*, and installing Rubies is not that thing.
+
+Installing new Rubies is easy enough; in fact, if a requested Ruby version is missing, rbfu will print the command required to install it (using ruby-build).
 
 ### Uninstalling
 
-If you ever want to get rid of rbfu, make sure the system Ruby is active, then simply delete the `$HOME/.rbfu` directory.
+If you ever want to get rid of rbfu, make sure the `@system` Ruby is active, remove the rbfu line from your shell startup script, delete the rbfu executable (or run `brew uninstall rbfu`), and finally delete the `$HOME/.rbfu` directory.
 
-    rbfu system
+    rbfu-env @system
     rm -rf $HOME/.rbfu/
 
 Please note that this will also delete all Ruby versions managed by rbfu, including all
 of their installed gems. Destruction is fun!
 
-### History
+Also, don't forget to remove the rbfu line from your shell startup script.
 
-Yo dawg, this stuff is so fresh, it doesn't even have a version number yet. Hang in there!
 
-### License
+
+## History
+
+### development
+
+* ZOMG!
+
+
+## License
 
 MIT License
 
