@@ -1,27 +1,5 @@
 #!/usr/bin/env bash
 
-if [ "$1" = "--init" ]; then
-  cat <<EOD
-alias rbfu-env=". rbfu"
-EOD
-
-  if [ "$2" = "--auto" ]; then
-    cat <<EOD
-function cd() {
-  if builtin cd "\$@"; then
-    [ -f "\$PWD/.rbfu-version" ] && rbfu-env true
-  else
-    return \$?
-  fi
-}
-
-[ -f $HOME/.rbfu-version ] && rbfu-env
-EOD
-  fi
-
-  exit 0
-fi
-
 # Useful methods. \o/
 #
 set_variable () { export $1="$2"; }
@@ -94,4 +72,35 @@ rbfu_activate () {
   [[ $COMMAND ]] && $COMMAND
 }
 
-rbfu_activate $@
+
+# check for our favorite command line options!
+#
+if [ "$1" = "--help" ]; then
+  cat <<EOD
+rbfu [@<version>] [command]
+EOD
+  exit 0
+elif [ "$1" = "--init" ]; then
+  cat <<EOD
+alias rbfu-env=". rbfu"
+EOD
+
+  if [ "$2" = "--auto" ]; then
+    cat <<EOD
+function cd() {
+  if builtin cd "\$@"; then
+    [ -f "\$PWD/.rbfu-version" ] && rbfu-env true
+  else
+    return \$?
+  fi
+}
+
+[ -f $HOME/.rbfu-version ] && rbfu-env
+EOD
+  fi
+
+  exit 0
+else
+  # go!
+  rbfu_activate $@
+fi
