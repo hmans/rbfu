@@ -133,9 +133,9 @@ Also, don't forget to remove the rbfu line from your shell startup script.
 
 ## History
 
-### development
+### 0.2.0
 
-* ZOMG!
+* First official release, featuring the new "@version" invocation style.
 
 
 ## Contributors
