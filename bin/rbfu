@@ -80,11 +80,27 @@ if [ "$1" = "--help" ]; then
 rbfu [@<version>] [command]
 EOD
   exit 0
+
+# initialization code (run from shell startup script)
+#
 elif [ "$1" = "--init" ]; then
   cat <<EOD
 alias rbfu-env=". rbfu"
+_rbfu_complete_version() {
+  cur="\${COMP_WORDS[COMP_CWORD]}"
+  opts=\$(ls $HOME/.rbfu/rubies | sed -e "s/^/@/")
+
+  if [[ \$COMP_CWORD == 1 ]]; then
+    COMPREPLY=( \$(compgen -W "\${opts} @system" -- \${cur}) )
+    return 0
+  fi
+}
+complete -o nospace -F _rbfu_complete_version rbfu
+complete -o nospace -F _rbfu_complete_version rbfu-env
 EOD
 
+  # optional automatic mode
+  #
   if [ "$2" = "--auto" ]; then
     cat <<EOD
 function cd() {
@@ -100,7 +116,9 @@ EOD
   fi
 
   exit 0
+
+# normal operation
+#
 else
-  # go!
   rbfu_activate $@
 fi
