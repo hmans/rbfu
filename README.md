@@ -20,11 +20,11 @@
 
 3. Add the following initialization line to a **shell startup script** of your choosing (eg. `$HOME/.bash_profile`):
 
-        [ $(which rbfu) ] && eval "$(rbfu --init)"
+        eval "$(rbfu --init --auto)"
     
-    Or, if you want **automatic version switching** (see below):
+    Or, if you don't want RVM-style automatic version switching (see below), leave out the `--auto` parameter:
     
-        [ $(which rbfu) ] && eval "$(rbfu --init --auto)"
+        eval "$(rbfu --init)"
 
 
 ### Installing Rubies
@@ -82,7 +82,7 @@ If your shell startup script invocation of `rbfu --init` includes the `--auto` o
 
 ## Frequently Asked Questions / Tips & Tweaks
 
-### How do I get shorter version numbers ("1.8.7" instead of "1.8.7-p352")?
+### How do I assign shorter names to my Rubies ("1.8.7" instead of "1.8.7-p352")?
 
 rbfu doesn't care what the directories your Rubies are installed in are named. You can install a version like 1.8.7-p352 into `$HOME/.rbfu/rubies/1.8.7`, and it will be available through `rbfu @1.8.7`.
 
