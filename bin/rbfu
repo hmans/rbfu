@@ -95,6 +95,9 @@ _rbfu_complete_version() {
     return 0
   fi
 }
+if type autoload >/dev/null 2>&1; then
+  autoload -Uz bashcompinit && bashcompinit
+fi
 complete -o nospace -F _rbfu_complete_version rbfu
 complete -o nospace -F _rbfu_complete_version rbfu-env
 EOD
