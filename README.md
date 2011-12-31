@@ -59,7 +59,7 @@ The `@<version>` parameter is optional; if not specified, rbfu will look for a f
 
 The `.rbfu-version` files are expected to contain nothing but the Ruby version requested. For example:
 
-    echo "1.9.3-p0" > $HOME/.rbfu_version
+    echo "1.9.3-p0" > $HOME/.rbfu-version
     rbfu ruby -v    # will use 1.9.3-p0
 
 If the `@<version>` parameter is given, it will always override whatever versions are specified in available `.rbfu-version` files.
