@@ -127,6 +127,10 @@ Also, don't forget to remove the rbfu line from your shell startup script.
 
 ## History
 
+### HEAD
+
+* zsh completion compatibility (thanks to @dbloete)
+
 ### 0.2.0
 
 * First official release, featuring the new "@version" invocation style.
