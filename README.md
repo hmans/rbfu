@@ -2,23 +2,17 @@
 
 **rbfu is a simple tool that manages multiple installations of Ruby and allows you to switch between them on the fly.**
 
-## Installation
+## Installing rbfu
 
-### Installing through Homebrew
+1. Download/clone the rbfu code and run the install script:
 
-1. If you're on OS X and using Homebrew, installation is easy:
-
-        brew install rbfu
-
-2. Alternatively, download/clone the rbfu code and run the install script:
-
-        git clone git@github.com:hmans/rbfu.git
+        git clone git://github.com/hmans/rbfu.git
         cd rbfu
         ./install.sh
 
     This will copy the `rbfu` executable to `/usr/local/bin`. If you need to install `rbfu` to a different directory, you can supply the `PREFIX` environment variable, manually copy `bin/rbfu` to a directory of your choosing, or add the provided `bin` directory to your PATH. Either way, all you need to do is make `rbfu` available in your `$PATH`.
 
-3. Add the following initialization line to a **shell startup script** of your choosing (eg. `$HOME/.bash_profile`):
+2. Add the following initialization line to a **shell startup script** of your choosing (eg. `$HOME/.bash_profile`):
 
         eval "$(rbfu --init --auto)"
     
@@ -119,7 +113,7 @@ Installing new Rubies is easy enough; in fact, if a requested Ruby version is mi
 
 ### Uninstalling
 
-If you ever want to get rid of rbfu, make sure the `@system` Ruby is active, remove the rbfu line from your shell startup script, delete the rbfu executable (or run `brew uninstall rbfu`), and finally delete the `$HOME/.rbfu` directory.
+If you ever want to get rid of rbfu, make sure the `@system` Ruby is active, remove the rbfu line from your shell startup script, delete the rbfu executable, reload your environment, and finally delete the `$HOME/.rbfu` directory.
 
     rbfu-env @system
     rm -rf $HOME/.rbfu/
