@@ -86,6 +86,7 @@ EOD
 elif [ "$1" = "--init" ]; then
   cat <<EOD
 alias rbfu-env="source rbfu"
+
 _rbfu_complete_version() {
   cur="\${COMP_WORDS[COMP_CWORD]}"
   opts=\$(ls $HOME/.rbfu/rubies | sed -e "s/^/@/")
@@ -95,9 +96,11 @@ _rbfu_complete_version() {
     return 0
   fi
 }
+
 if type autoload >/dev/null 2>&1; then
   autoload -Uz bashcompinit && bashcompinit
 fi
+
 complete -o nospace -F _rbfu_complete_version rbfu
 complete -o nospace -F _rbfu_complete_version rbfu-env
 EOD
