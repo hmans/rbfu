@@ -97,7 +97,7 @@ If you *really* want or need gemset-like functionality, you can emulate it by si
 
 Add a `.rbfu-version` file to your project, as well as a `.powrc` file containing the following line:
 
-    . rbfu
+    source rbfu
 
 This will make Pow start up your project through rbfu. We're working on adding built-in support for rbfu to Pow soon.
 
@@ -130,6 +130,7 @@ Also, don't forget to remove the rbfu line from your shell startup script.
 ### HEAD
 
 * zsh completion compatibility (thanks to @dbloete)
+* improved compatibility with bash < 4.0
 
 ### 0.2.0
 

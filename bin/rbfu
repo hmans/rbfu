@@ -85,7 +85,7 @@ EOD
 #
 elif [ "$1" = "--init" ]; then
   cat <<EOD
-alias rbfu-env=". rbfu"
+alias rbfu-env="source rbfu"
 _rbfu_complete_version() {
   cur="\${COMP_WORDS[COMP_CWORD]}"
   opts=\$(ls $HOME/.rbfu/rubies | sed -e "s/^/@/")
