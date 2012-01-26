@@ -30,20 +30,21 @@ rbfu_activate () {
   # Run-time configuration
   #
   if [[ $1 =~ ^@ ]]; then
-    VERSION=${1:1}; shift
+    VERSION=$1; shift
+    VERSION=${VERSION:1}
   fi
-  COMMAND=$@
+  COMMAND="$@"
   SOURCE="from command line"
 
   # fall back to $PWD/.rbfu-version and $HOME/.rbfu-version if no version is given
   read_version_from_file () { if [ -f "$1" ]; then SOURCE="from $1"; VERSION=`cat $1`; fi; }
-  [[ $VERSION ]] || read_version_from_file "$PWD/.rbfu-version"
-  [[ $VERSION ]] || read_version_from_file "$HOME/.rbfu-version"
+  [ -n "$VERSION" ] || read_version_from_file "$PWD/.rbfu-version"
+  [ -n "$VERSION" ] || read_version_from_file "$HOME/.rbfu-version"
 
   # sanity checks
-  [ ! $VERSION ] && warn "Please specify the Ruby version to activate." && return
+  [ ! "$VERSION" ] && warn "Please specify the Ruby version to activate." && return
 
-  if [ $VERSION == "system" ]; then
+  if [[ "$VERSION" == "system" ]]; then
     deactivate_previous_ruby_version
     MSG="Activated system Ruby."
   else
@@ -69,7 +70,7 @@ rbfu_activate () {
   info "$MSG ($SOURCE)"
 
   # execute command, if given
-  [[ $COMMAND ]] && $COMMAND
+  [ -n "$COMMAND" ] && eval $COMMAND
 }
 
 
@@ -97,27 +98,33 @@ _rbfu_complete_version() {
   fi
 }
 
-if type autoload >/dev/null 2>&1; then
-  autoload -Uz bashcompinit && bashcompinit
+# if type autoload >/dev/null 2>&1; then
+#   builtin autoload -Uz bashcompinit && bashcompinit
+# fi
+
+# only load tab completion for bash for now. :(
+if [ -n "\$BASH_VERSION" ]; then
+  complete -o nospace -F _rbfu_complete_version rbfu
+  complete -o nospace -F _rbfu_complete_version rbfu-env
 fi
 
-complete -o nospace -F _rbfu_complete_version rbfu
-complete -o nospace -F _rbfu_complete_version rbfu-env
 EOD
 
   # optional automatic mode
   #
   if [ "$2" = "--auto" ]; then
     cat <<EOD
-function cd() {
-  if builtin cd "\$@"; then
-    [ -f "\$PWD/.rbfu-version" ] && rbfu-env true
-  else
-    return \$?
-  fi
-}
-
-[ -f $HOME/.rbfu-version ] && rbfu-env
+if [ -n "\$ZSH_VERSION" ]; then
+  function booya() {
+    source rbfu
+  }
+  chpwd_functions=(\${chpwd_functions[@]} "booya")
+else
+  function cd() {
+    builtin cd "\$@" && [ -f "\$PWD/.rbfu-version" ] && source rbfu true
+  }
+fi
+[ -f $HOME/.rbfu-version ] && source rbfu
 EOD
   fi
 
