@@ -115,10 +115,10 @@ EOD
   if [ "$2" = "--auto" ]; then
     cat <<EOD
 if [ -n "\$ZSH_VERSION" ]; then
-  function booya() {
-    source rbfu
+  function _go_rbfu() {
+    [ -f "\$PWD/.rbfu-version" ] && source rbfu
   }
-  chpwd_functions=(\${chpwd_functions[@]} "booya")
+  chpwd_functions=(\${chpwd_functions[@]} "_go_rbfu")
 else
   function cd() {
     builtin cd "\$@" && [ -f "\$PWD/.rbfu-version" ] && source rbfu true
