@@ -129,6 +129,7 @@ Also, don't forget to remove the rbfu line from your shell startup script.
 
 ### HEAD
 
+* improved zsh compatibility
 * zsh completion compatibility (thanks to @dbloete)
 * improved compatibility with bash < 4.0
 
