@@ -17,7 +17,9 @@ info () { warn "$1"; }
 deactivate_previous_ruby_version () {
   if [ $RBFU_RUBY_VERSION ]; then
     path_remove "$RUBIES_ROOT/$RBFU_RUBY_VERSION/bin"
+    path_remove "$RUBIES_ROOT/$RBFU_RUBY_VERSION/lib/ruby/gems/bin"
     unset_variable GEM_PATH
+    unset_variable GEM_HOME
     unset_variable RBFU_RUBY_VERSION
   fi
 }
@@ -60,9 +62,11 @@ rbfu_activate () {
     deactivate_previous_ruby_version
 
     # activate requested version
+    path_prepend "$RUBY_ROOT/lib/ruby/gems/bin"
     path_prepend "$RUBY_ROOT/bin"
     set_variable "RBFU_RUBY_VERSION" "$VERSION"
     set_variable "GEM_PATH" "$RUBY_ROOT/lib/ruby/gems"
+    set_variable "GEM_HOME" "$RUBY_ROOT/lib/ruby/gems"
 
     MSG="Activated Ruby $RBFU_RUBY_VERSION."
   fi
