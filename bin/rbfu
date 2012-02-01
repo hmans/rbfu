@@ -93,12 +93,14 @@ elif [ "$1" = "--init" ]; then
 alias rbfu-env="source rbfu"
 
 _rbfu_complete_version() {
-  cur="\${COMP_WORDS[COMP_CWORD]}"
-  opts=\$(ls $HOME/.rbfu/rubies | sed -e "s/^/@/")
+  if [ -d "$HOME/.rbfu/rubies" ]; then
+    cur="\${COMP_WORDS[COMP_CWORD]}"
+    opts=\$(ls $HOME/.rbfu/rubies | sed -e "s/^/@/")
 
-  if [[ \$COMP_CWORD == 1 ]]; then
-    COMPREPLY=( \$(compgen -W "\${opts} @system" -- \${cur}) )
-    return 0
+    if [[ \$COMP_CWORD == 1 ]]; then
+      COMPREPLY=( \$(compgen -W "\${opts} @system" -- \${cur}) )
+      return 0
+    fi
   fi
 }
 
