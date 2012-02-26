@@ -41,7 +41,9 @@ rbfu_activate () {
   # fall back to $PWD/.rbfu-version and $HOME/.rbfu-version if no version is given
   read_version_from_file () { if [ -f "$1" ]; then SOURCE="from $1"; VERSION=`head -n 1 $1`; fi; }
   [ -n "$VERSION" ] || read_version_from_file "$PWD/.rbfu-version"
+  [ -n "$VERSION" ] || read_version_from_file "$PWD/.ruby-version"
   [ -n "$VERSION" ] || read_version_from_file "$HOME/.rbfu-version"
+  [ -n "$VERSION" ] || read_version_from_file "$HOME/.ruby-version"
 
   # sanity checks
   [ ! "$VERSION" ] && warn "Please specify the Ruby version to activate." && return
