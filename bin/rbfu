@@ -122,17 +122,18 @@ EOD
   #
   if [ "$2" = "--auto" ]; then
     cat <<EOD
+function _rbfu_auto() {
+  ([ -f "\$PWD/.rbfu-version" ] || [ -f "\$PWD/.ruby-version" ]) && source rbfu true
+}
+
 if [ -n "\$ZSH_VERSION" ]; then
-  function _go_rbfu() {
-    ([ -f "\$PWD/.rbfu-version" ] || [ -f "\$PWD/.ruby-version" ]) && source rbfu
-  }
-  chpwd_functions=(\${chpwd_functions[@]} "_go_rbfu")
+  chpwd_functions=(\${chpwd_functions[@]} "_rbfu_auto")
 else
   function cd() {
-    builtin cd "\$@" && ([ -f "\$PWD/.rbfu-version" ] || [ -f "\$PWD/.ruby-version" ]) && source rbfu true
+    builtin cd "\$@" && _rbfu_auto
   }
 fi
-([ -f "$HOME/.rbfu-version" ] || [ -f "\$HOME/.ruby-version" ]) && source rbfu
+_rbfu_auto
 EOD
   fi
 
