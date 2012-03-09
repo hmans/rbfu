@@ -15,9 +15,9 @@
 2. Add the following initialization line to a **shell startup script** of your choosing (eg. `$HOME/.bash_profile`):
 
         eval "$(rbfu --init --auto)"
-    
+
     Or, if you don't want RVM-style automatic version switching (see below), leave out the `--auto` parameter:
-    
+
         eval "$(rbfu --init)"
 
 
@@ -49,14 +49,14 @@ A couple of examples:
     rbfu @jruby bundle install
     rbfu @1.9.3 thin start
 
-The `@<version>` parameter is optional; if not specified, rbfu will look for a file named `.rbfu-version` in your current directory, followed by your home directory. This allows you to set global default for your user account, and project-specific overrides.
+The `@<version>` parameter is optional; if not specified, rbfu will look for a file named `.ruby-version` (or, alternatively, `.rbfu-version`) in your current directory, followed by your home directory. This allows you to set global default for your user account, and project-specific overrides.
 
-The `.rbfu-version` files are expected to contain nothing but the Ruby version requested. For example:
+The `.ruby-version` files are expected to contain nothing but the Ruby version requested. For example:
 
-    echo "1.9.3-p0" > $HOME/.rbfu-version
+    echo "1.9.3-p0" > $HOME/.ruby-version
     rbfu ruby -v    # will use 1.9.3-p0
 
-If the `@<version>` parameter is given, it will always override whatever versions are specified in available `.rbfu-version` files.
+If the `@<version>` parameter is given, it will always override whatever versions are specified in available `.ruby-version` files.
 
 ### Modifying the current shell environment
 
@@ -70,7 +70,7 @@ The above command will reconfigure your currently active shell session to use Ru
 
 ### Automatic Version Switching
 
-If your shell startup script invocation of `rbfu --init` includes the `--auto` option (see "Installation"), rbfu will be configured to switch Ruby versions automatically when changing to a new directory containing a `.rbfu-version` file. 
+If your shell startup script invocation of `rbfu --init` includes the `--auto` option (see "Installation"), rbfu will be configured to switch Ruby versions automatically when changing to a new directory containing a `.ruby-version` file.
 
 (Also known as "works like RVM mode". Some people don't like this behavior, so it's optional -- simply remove the `--auto` option to disable this.)
 
@@ -95,7 +95,7 @@ If you *really* want or need gemset-like functionality, you can emulate it by si
 
 ### How do I use rbfu with Pow?
 
-Add a `.rbfu-version` file to your project, as well as a `.powrc` file containing the following line:
+Add a `.ruby-version` file to your project, as well as a `.powrc` file containing the following line:
 
     source rbfu
 
@@ -129,6 +129,7 @@ Also, don't forget to remove the rbfu line from your shell startup script.
 
 ### HEAD
 
+* rbfu now also looks for `.ruby-version` files, using the same format as the `.rbfu-version` files supported previously. `.ruby-version` is being established as a common Ruby version specification format, with support being added to RVM, rbenv and other Ruby version managers.
 * improved zsh compatibility
 * zsh completion compatibility (thanks to @dbloete)
 * improved compatibility with bash < 4.0
