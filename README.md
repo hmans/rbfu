@@ -2,6 +2,21 @@
 
 **rbfu is a simple tool that manages multiple installations of Ruby and allows you to switch between them on the fly.**
 
+## Rationale
+
+Most Ruby developers like to keep different self-compiled versions of Ruby on their systems so they can switch back and forth between them depending on the project they're working on. Most of them use [RVM](https://rvm.io/) to do this; others prefer [rbenv](https://github.com/sstephenson/rbenv/). Both are great tools, but do a little bit too much for my taste.
+
+See, the thing is: switching Ruby versions is actually a trivial operation, since it merely involves modifying a couple of environment variables (`PATH`, `GEM_HOME` and `GEM_PATH`). Both RVM and rbenv go through a lot of hassle in order to eventually perform this very simple operation.
+
+**rbfu** is trying to keep things simple; it's a small shell script that doesn't do much else beyond changing the variables mentioned above.
+
+I believe that software should be small and focused. rbfu doesn't come with support for gemsets (a feature I personally disagree with), nor will it compile Ruby for you (it's easy enough with [ruby-build](https://github.com/sstephenson/ruby-build/)).
+
+It just does one thing, and I think it does it really well.
+
+If this appeals to you, please give rbfu a spin.
+
+
 ## Installing rbfu
 
 1. Download/clone the rbfu code and run the install script:
@@ -23,13 +38,13 @@
 
 ### Installing Rubies
 
-rbfu can switch between multiple installations of Ruby on the fly, and it expects them to live within directories named `$HOME/.rbfu/rubies/$VERSION/`. Feel free to install your favourite Ruby versions however you prefer to do it, but we recommend the excellent [ruby-build](https://github.com/sstephenson/ruby-build) tool.
+rbfu can switch between multiple installations of Ruby on the fly, and it expects them to live within directories named `$HOME/.rbfu/rubies/$VERSION/`. Feel free to install your favourite Ruby versions however you prefer to do it, but I recommend the excellent [ruby-build](https://github.com/sstephenson/ruby-build) tool.
 
 Using ruby-build, here's how you'd install a bunch of popular Ruby versions:
 
     ruby-build 1.8.7-p352 $HOME/.rbfu/rubies/1.8.7-p352
     ruby-build 1.9.2-p290 $HOME/.rbfu/rubies/1.9.2-p290
-    ruby-build 1.9.3-p0   $HOME/.rbfu/rubies/1.9.3-p0
+    ruby-build 1.9.3-p194 $HOME/.rbfu/rubies/1.9.3-p194
 
 Obviously, each installed Ruby version will have its own self-contained set of gems and associated binaries, so go wild!
 
@@ -70,7 +85,7 @@ The above command will reconfigure your currently active shell session to use Ru
 
 ### Automatic Version Switching
 
-If your shell startup script invocation of `rbfu --init` includes the `--auto` option (see "Installation"), rbfu will be configured to switch Ruby versions automatically when changing to a new directory containing a `.ruby-version` file.
+If your shell startup script invocation of `rbfu --init` includes the `--auto` option (see "[Installating rbfu](#installing-rbfu)"), rbfu will be configured to switch Ruby versions automatically when changing to a new directory containing a `.ruby-version` file.
 
 (Also known as "works like RVM mode". Some people don't like this behavior, so it's optional -- simply remove the `--auto` option to disable this.)
 
@@ -89,7 +104,7 @@ Simply symlink the directory.
 
 ### How do I create a new gemset?
 
-RVM (a tool similar to rbfu) contains functionality to create completely separate sets of RubyGems (aka gemsets). rbfu does not contain such functionality, nor are we planning on adding it (we believe it's not neccessary; managing gem dependencies with [Bundler](http://gembundler.com/) works just fine, thank you very much.)
+RVM (a tool similar to rbfu) contains functionality to create completely separate sets of RubyGems (aka gemsets). rbfu does not contain such functionality, nor am I planning on adding it (I believe it's not neccessary; managing gem dependencies with [Bundler](http://gembundler.com/) works just fine, thank you very much.)
 
 If you *really* want or need gemset-like functionality, you can emulate it by simply creating separate Rubies and using them in your projects (eg. `$HOME/.rbfu/rubies/project_a/` and `$HOME/.rbfu/rubies/project_b/`). The overhead isn't all that bad.
 
@@ -101,13 +116,9 @@ Add a `.ruby-version` file to your project, as well as a `.powrc` file containin
 
 This will make Pow start up your project through rbfu. We're working on adding built-in support for rbfu to Pow soon.
 
-### How do I use rbfu with TextMate?
-
-*Coming soon.*
-
 ### Why doesn't rbfu just install new Rubies itself?
 
-This could be added easily (it's a simple invocation of `ruby-build`); however, we're actively deciding against it because the most important design decision for rbfu is that it's supposed to *just one thing*, and installing Rubies is not that thing.
+This could be added easily (it's a simple invocation of `ruby-build`); however, I'm actively deciding against it because the most important design decision for rbfu is that it's supposed to do *just one thing*, and installing Rubies is not that thing.
 
 Installing new Rubies is easy enough; in fact, if a requested Ruby version is missing, rbfu will print the command required to install it (using ruby-build).
 
@@ -127,17 +138,15 @@ Also, don't forget to remove the rbfu line from your shell startup script.
 
 ## History
 
-### HEAD
+### 0.3.0
 
 * rbfu now also looks for `.ruby-version` files, using the same format as the `.rbfu-version` files supported previously. `.ruby-version` is being established as a common Ruby version specification format, with support being added to RVM, rbenv and other Ruby version managers.
-* improved zsh compatibility
 * zsh completion compatibility (thanks to @dbloete)
 * improved compatibility with bash < 4.0
 
 ### 0.2.0
 
 * First official release, featuring the new "@version" invocation style.
-
 
 ## Contributors
 
