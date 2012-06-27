@@ -2,7 +2,6 @@
 # system for OS X. rbfu has so far not been accepted into the official
 # homebrew distribution, but luckily homebrew can also use custom
 # formulas, which is why I'm providing it here.
-
 require 'formula'
 
 class Rbfu < Formula
