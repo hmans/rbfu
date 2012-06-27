@@ -136,7 +136,7 @@ Installing new Rubies is easy enough; in fact, if a requested Ruby version is mi
 
 ### Uninstalling
 
-If you ever want to get rid of rbfu, make sure the `@system` Ruby is active, remove the rbfu line from your shell startup script, delete the rbfu executable, reload your environment, and finally delete the `$HOME/.rbfu` directory.
+If you ever want to get rid of rbfu, make sure the `@system` Ruby is active, remove the rbfu line from your shell startup script, delete the rbfu executable (or run `brew uninstall rbfu`, if using Homebrew), reload your environment, and finally delete the `$HOME/.rbfu` directory.
 
     rbfu-env @system
     rm -rf $HOME/.rbfu/
