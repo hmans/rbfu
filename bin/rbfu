@@ -124,6 +124,7 @@ EOD
     cat <<EOD
 function _rbfu_auto() {
   ([ -f "\$PWD/.rbfu-version" ] || [ -f "\$PWD/.ruby-version" ]) && source rbfu true
+  return 0
 }
 
 if [ -n "\$ZSH_VERSION" ]; then
