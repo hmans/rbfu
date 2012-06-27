@@ -19,6 +19,18 @@ If this appeals to you, please give rbfu a spin.
 
 ## Installing rbfu
 
+### Using Homebrew
+
+If you're on OS X and using [Homebrew](http://mxcl.github.com/homebrew/), you can install rbfu through the following command:
+
+    brew install http://git.io/rbfu
+
+Please don't forget to follow the instructions provided by the above command.
+
+### Manual Installation
+
+If you're not using Homebrew, don't worry; installing rbfu is very straight-forward (and should work fine on Linux & friends, too).
+
 1. Download/clone the rbfu code and run the install script:
 
         git clone git://github.com/hmans/rbfu.git
