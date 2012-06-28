@@ -2,6 +2,22 @@
 
 **rbfu is a simple tool that manages multiple installations of Ruby and allows you to switch between them on the fly.**
 
+First and foremost, it supports an explicit invocation style that takes a Ruby version as a command line parameter or reads it from `.ruby-version`, if present:
+
+``` shell
+$ rbfu @1.8.7 ruby -v
+$ rbfu ruby -v         # reads from .ruby-version
+```
+
+You can use `rbfu-env` to modify the current shell session:
+
+``` shell
+$ rbfu-env @1.8.7
+$ rbfu-env         # reads from .ruby-version
+```
+
+And, of course, there's also an (optional) automatic mode that automatically modifies your shell session when you cd into a directory containing a `.ruby-version` file.
+
 ## Rationale
 
 Most Ruby developers like to keep different self-compiled versions of Ruby on their systems so they can switch back and forth between them depending on the project they're working on. Most of them use [RVM](https://rvm.io/) to do this; others prefer [rbenv](https://github.com/sstephenson/rbenv/). Both are great tools, but do a little bit too much for my taste.
