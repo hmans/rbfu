@@ -4,19 +4,19 @@
 
 First and foremost, it supports an explicit invocation style that takes a Ruby version as a command line parameter or reads it from `.ruby-version`, if present:
 
-``` shell
-$ rbfu @1.8.7 ruby -v
-$ rbfu ruby -v         # reads from .ruby-version
+```bash
+$ rbfu @1.8.7 ruby -v  # switches to Ruby 1.8.7 and executes the command
+$ rbfu ruby -v         # switches to Ruby version specified in .ruby-version
 ```
 
-You can use `rbfu-env` to modify the current shell session:
+You can use `rbfu-env` to modify the current environment:
 
-``` shell
-$ rbfu-env @1.8.7
-$ rbfu-env         # reads from .ruby-version
+```bash
+$ rbfu-env @1.8.7  # modifies current environment to use Ruby 1.8.7
+$ rbfu-env         # same as above, but reads Ruby version from .ruby-version
 ```
 
-And, of course, there's also an (optional) automatic mode that automatically modifies your shell session when you cd into a directory containing a `.ruby-version` file.
+And, of course, there's also an (optional) **automatic mode** that automatically modifies your shell session when you cd into a directory containing a `.ruby-version` file.
 
 ## Rationale
 
