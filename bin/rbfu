@@ -24,7 +24,7 @@ deactivate_previous_ruby_version () {
   fi
 }
 
-rbfu_activate () {
+_rbfu_activate () {
   local VERSION COMMAND MSG SOURCE
   local RBFU_ROOT="$HOME/.rbfu"
   local RUBIES_ROOT="$RBFU_ROOT/rubies"
@@ -143,5 +143,5 @@ EOD
 # normal operation
 #
 else
-  rbfu_activate $@
+  _rbfu_activate $@
 fi
