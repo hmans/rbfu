@@ -94,28 +94,40 @@ elif [ "$1" = "--init" ]; then
   cat <<EOD
 alias rbfu-env="source rbfu"
 
-_rbfu_complete_version() {
-  if [ -d "$HOME/.rbfu/rubies" ]; then
-    cur="\${COMP_WORDS[COMP_CWORD]}"
-    opts=\$(ls $HOME/.rbfu/rubies | sed -e "s/^/@/")
+# enable tab completion for bash and zsh
+if command -v complete >/dev/null 2>&1; then
+  _rbfu_complete_version() {
+    if [ -d "$HOME/.rbfu/rubies" ]; then
+      cur="\${COMP_WORDS[COMP_CWORD]}"
+      opts=\$(\\ls -1 $HOME/.rbfu/rubies | sed -e "s/^/@/")
 
-    if [[ \$COMP_CWORD == 1 ]]; then
-      COMPREPLY=( \$(compgen -W "\${opts} @system" -- \${cur}) )
-      return 0
+      if [[ \$COMP_CWORD == 1 ]]; then
+        COMPREPLY=( \$(compgen -W "\${opts} @system" -- \${cur}) )
+        return 0
+      fi
     fi
-  fi
-}
-
-# if type autoload >/dev/null 2>&1; then
-#   builtin autoload -Uz bashcompinit && bashcompinit
-# fi
-
-# only load tab completion for bash for now. :(
-if [ -n "\$BASH_VERSION" ]; then
+  }
   complete -o nospace -F _rbfu_complete_version rbfu
   complete -o nospace -F _rbfu_complete_version rbfu-env
-fi
 
+elif command -v compdef >/dev/null 2>&1; then
+  _rbfu() {
+    local curcontext="\$curcontext" state line _rubies ret=1
+    _arguments -w -S '(-)--help[show usage and exit]: :->noargs' '1: :->versions' '*::: :->args' && ret=0
+
+    case \$state in
+      versions)
+        _rubies=( \$(\\ls -1 "$HOME/.rbfu/rubies" 2>/dev/null | sed -e "s/^/@/") "@system" )
+        _values 'rubies' \$_rubies && ret=0
+        ;;
+      args)
+        _normal && ret=0
+        ;;
+    esac
+    return \$ret
+  }
+  compdef _rbfu rbfu rbfu-env
+fi
 EOD
 
   # optional automatic mode
