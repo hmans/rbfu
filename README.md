@@ -179,8 +179,7 @@ Also, don't forget to remove the rbfu line from your shell startup script.
 ## Contributors
 
 * [Hendrik Mans](http://hmans.net) (author and maintainer)
-* [Sebastian Röbke](http://www.xing.com/profile/Sebastian_Roebke) (bash tab completion)
-* [Dennis Reimann](https://github.com/dbloete) (zsh completion compatibility)
+* [Sebastian Röbke](http://www.xing.com/profile/Sebastian_Roebke), [Dennis Reimann](https://github.com/dbloete) and [Lukas Westermann](https://github.com/lwe) and [Peter Aronoff](https://github.com/telemachus) (tab completion code for bash and zsh)
 
 ## License
 
