@@ -39,7 +39,7 @@ If this appeals to you, please give rbfu a spin.
 
 If you're on OS X and using [Homebrew](http://mxcl.github.com/homebrew/), you can install rbfu through the following command:
 
-    brew install http://git.io/rbfu
+    brew install http://git.io/rbfu.rb
 
 Please don't forget to follow the instructions provided by the above command.
 
