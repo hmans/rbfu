@@ -1,5 +1,11 @@
 # rbfu
 
+## Deprecation Notice
+
+**rbfu has been deprecated (as of 2013-02-25). Please use [chruby](https://github.com/postmodern/chruby) instead. [Read my blog post for details](http://sloblog.io/~hmans/NqLQrTKXRa0/i-m-deprecating-rbfu-please-use-chruby-instead).**
+
+## Introduction
+
 **rbfu is a simple tool that manages multiple installations of Ruby and allows you to switch between them on the fly.**
 
 First and foremost, it supports an explicit invocation style that takes a Ruby version as a command line parameter or reads it from `.ruby-version`, if present:
